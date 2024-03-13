@@ -1,1 +1,3 @@
-export class CreateDashboardDto {}
+export class CreateDashboardDto {
+    
+}
