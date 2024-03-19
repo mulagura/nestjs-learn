@@ -1,11 +1,18 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { CreateUsersDto } from './dto/create-users.dto';
+import { UpdateUsersDto } from './dto/update-users.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+
+    constructor(private readonly usersService:UsersService) {}
+
     // get all
     @Get()
     getAllUsers() {
-        return ['sample all data'];
+        // const service = new UsersService();
+        return this.usersService.getUserDetails();
     }
 
     // get by id
@@ -16,14 +23,20 @@ export class UsersController {
 
     // post
     @Post()
-    createAll() {
-        return 'post all';
+    createAll(@Body() createUsersDto: CreateUsersDto) {
+        return {
+            name: createUsersDto.userName,
+            userId: createUsersDto.id
+        };
     }
 
     // put by id
     @Put(':id')
-    updateById(@Param('id') id: number) {
-        return { putId: `the put id is: ${id}` };
+    updateById(@Param('id') id: number, updateUsersDto: UpdateUsersDto) {
+        return { 
+            putId: `the put id is: ${id}`,
+            uname:  updateUsersDto.userName
+        };
     }
 
     // delete by id
